@@ -1,0 +1,13 @@
+{
+    "name": "vendor/name",
+    "description": "init",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "R0X",
+            "email": "noto.baptiste2910@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
