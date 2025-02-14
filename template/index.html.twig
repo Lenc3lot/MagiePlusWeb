@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="./assets/style/style.css" type="text/css" />
+        <link rel="logo icon" href="">
+    </head>
+    <body>
+    <header>
+        {%block header%}
+        {% endblock %}
+    </header>
+
+    {% block body %}{% endblock %}
+
+    <footer>
+        {% block footer %}
+        {% endblock %}
+    </footer>
+    </body>
+</html>
