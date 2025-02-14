@@ -14,6 +14,6 @@ class HomeController
     {
         $r = new ReflectionClass($this);
         $vue = str_replace('Controller', 'view', $r->getshortName()) . "/home.html.twig";
-        MyTwig::afficheVue($vue, []);
+        MyTwig::afficheVue($vue, ["title" => "Accueil"]);
     }
 }
