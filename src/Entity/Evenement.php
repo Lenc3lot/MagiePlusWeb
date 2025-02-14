@@ -69,14 +69,14 @@ class Evenement
         return $this;
     }
 
-    public function getId_utilisateur(): ?string
+    public function getId_utilisateur(): ?User
     {
         return $this->id_utilisateur;
     }
 
-    public function setId_utilisateur(string $id_utilisateur): self
+    public function setId_utilisateur(User $user): self
     {
-        $this->id_utilisateur = $id_utilisateur;
+        $this->id_utilisateur = $user;
         return $this;
     }
 
