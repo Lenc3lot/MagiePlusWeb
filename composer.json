@@ -11,5 +11,11 @@
     "minimum-stability": "dev",
     "require": {
         "twbs/bootstrap": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src",
+            "Tools\\": "tools"
+        }
     }
 }
