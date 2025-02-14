@@ -4,12 +4,13 @@
         <meta charset="UTF-8">
         <title>{{ title }}</title>
         <link rel="stylesheet" href="./assets/style/style.css" type="text/css" />
-        <link rel="stylesheet" href="/public/assets/style/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="./assets/style/bootstrap.min.css" type="text/css" />
         <link rel="logo icon" href="">
     </head>
     <body>
     <header>
         {%block header%}
+            {% include './_partials/_header.html.twig' %}
         {% endblock %}
     </header>
 
@@ -17,6 +18,7 @@
 
     <footer>
         {% block footer %}
+            {% include './_partials/_footer.html.twig' %}
         {% endblock %}
     </footer>
     </body>
