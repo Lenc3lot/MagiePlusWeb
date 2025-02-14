@@ -1,38 +1,40 @@
 <?php
+declare(strict_types=1);
 
-use App\Exceptions\AppException;
-use Tools\MyTwig;
+// Définition des constantes
 define('DEV_MODE', true);
 define('DS', DIRECTORY_SEPARATOR);
-define('RACINE', new DirectoryIterator(dirname(__FILE__)) . DS . ".." . DS);
-include_once(RACINE . DS . 'config/conf.php');
-include_once(PATH_VENDOR . "autoload.php");
-include_once(RACINE . DS . 'includes/params.php');
+define('RACINE', dirname(__DIR__) . DS);
+
+// Inclusion des fichiers nécessaires
+require_once RACINE . 'config/define.php';
+require_once PATH_VENDOR . 'autoload.php';
+require_once RACINE . 'includes/params.php';
 
 try {
-    if ((!array_key_exists('c', $_GET)) || (!array_key_exists('a', $_GET))) {
-        throw new Exception("Erreur, cette page n'existe pas");
-    }
-    $BaseController = filter_input(INPUT_GET, 'c', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $action = filter_input(INPUT_GET, 'a', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $controller = "App\\Controller\\" . $BaseController . "Controller";
-    if (class_exists($controller, true)) {
-        $c = new $controller();
-        $params = array(array_slice($_REQUEST, 2));
-        call_user_func_array(array($c, $action), $params);
-    } else {
+    // Récupération et validation des paramètres
+    $BaseController = filter_input(INPUT_GET, 'c', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'Test';
+    $action = filter_input(INPUT_GET, 'a', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'index';
+    $controller = "App\\Controller\\" . ucfirst($BaseController) . "Controller";
+
+    if (!class_exists($controller)) {
         throw new Error("Le contrôleur demandé n'existe pas");
     }
-} catch (Error $ex) {
-    $params['ex'] = $ex;
-    $params['DEV_MODE'] = DEV_MODE;
-    MyTwig::afficheVue('errors/error.html.twig', $params);
-} catch (AppException $ex) {
-    $params['ex'] = $ex;
-    $params['DEV_MODE'] = DEV_MODE;
-    MyTwig::afficheVue('errors/error.html.twig', $params);
-} catch (Exception $ex) {
-    $params['ex'] = $ex;
-    $params['DEV_MODE'] = DEV_MODE;
-    MyTwig::afficheVue('errors/error.html.twig', $params);
+
+    $c = new $controller();
+
+    if (!method_exists($c, $action)) {
+        throw new Error("L'action demandée n'existe pas");
+    }
+
+    // Appel de l'action avec les paramètres restants
+    $actionParams = array_slice($_REQUEST, 2);
+    call_user_func_array([$c, $action], $actionParams);
+
+} catch (Throwable $ex) {
+    $params = [
+        'ex' => $ex,
+        'DEV_MODE' => DEV_MODE
+    ];
+    echo $params['ex'];
 }
