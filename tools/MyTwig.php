@@ -8,7 +8,7 @@ use Twig\Loader\FilesystemLoader;
 
 abstract class MyTwig
 {
-    private static function getLoader()
+    private static function getLoader(): Environment
     {
         $loader = new FilesystemLoader(PATH_VIEW);
         $environmentTwig = new Environment($loader, [
@@ -19,7 +19,7 @@ abstract class MyTwig
         return $environmentTwig;
     }
 
-    public static function afficheVue($vue, $params)
+    public static function afficheVue($vue, $params): void
     {
         $twig = self::getLoader();
         $template = $twig->load($vue);
