@@ -9,6 +9,7 @@ class User
     private ?string $prenom = null;
     private ?string $login = null;
     private ?string $password = null;
+    private ?array $evenements = [];
     public function __construct($params = null) {
         if (!is_null($params)) {
             foreach ($params as $cle => $valeur) {
@@ -63,6 +64,27 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getEvenements(): array
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!in_array($evenement, $this->evenements, true)) {
+            $this->evenements[] = $evenement;
+        }
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        $this->evenements = array_filter($this->evenements, function($e) use ($evenement) {
+            return $e !== $evenement;
+        });
         return $this;
     }
 }

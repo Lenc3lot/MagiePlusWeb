@@ -9,7 +9,8 @@ class Evenement
     private ?string $description = null;
     private ?\DateTime $date = null;
     private ?string $lieu = null;
-    private ?string $id_utilisateur = null;
+    private ?User $id_utilisateur = null;
+    private ?array $users = [];
 
     public function __construct($params = null) {
         if (!is_null($params)) {
@@ -76,6 +77,27 @@ class Evenement
     public function setId_utilisateur(string $id_utilisateur): self
     {
         $this->id_utilisateur = $id_utilisateur;
+        return $this;
+    }
+
+    public function getUsers(): array
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!in_array($user, $this->users, true)) {
+            $this->users[] = $user;
+        }
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users = array_filter($this->users, function($u) use ($user) {
+            return $u !== $user;
+        });
         return $this;
     }
 }
