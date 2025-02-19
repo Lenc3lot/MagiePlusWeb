@@ -10,7 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "twbs/bootstrap": "dev-main"
+        "twbs/bootstrap": "dev-main",
+        "twig/twig": "4.x-dev"
     },
     "autoload": {
         "psr-4": {
