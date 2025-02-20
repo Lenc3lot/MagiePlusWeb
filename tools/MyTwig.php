@@ -23,6 +23,7 @@ abstract class MyTwig
     {
         $twig = self::getLoader();
         $template = $twig->load($vue);
+        $params['session'] = $_SESSION;
         echo $template->render($params);
     }
 }
