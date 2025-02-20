@@ -23,7 +23,10 @@ class EvenementRepository extends Repository {
 
         $evenements = [];
         foreach ($rows as $row) {
-            $evenementId = $row['Id'];
+            $evenementId = $row['Id'] ?? null;
+            if ($evenementId === null) {
+                continue; // Skip rows without an Id
+            }
             if (!isset($evenements[$evenementId])) {
                 $createur = $userRepository->find((int)$row['createur']);
                 $img = $row['img'] ?? '';
@@ -34,7 +37,7 @@ class EvenementRepository extends Repository {
                     $row['desc'],
                     new \DateTime($row['date']),
                     $row['lieu'],
-                    $row['id']
+                    $evenementId
                 );
             }
             if ($row['user_id'] !== null) {
