@@ -10,7 +10,7 @@ abstract class Repository {
     private string $classeNameLong;
     private string $classeNamespace;
     private string $table;
-    private PDO $connexion;
+    protected PDO $connexion;
 
     private function __construct(string $entity) {
         $tablo = explode("\\", $entity);
