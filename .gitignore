@@ -1,4 +1,3 @@
 vendor/*
 .idea
 /composer.lock
-/public/assets/style/bootstrap.min.css
