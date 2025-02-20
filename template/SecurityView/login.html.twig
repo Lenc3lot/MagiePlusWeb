@@ -15,15 +15,52 @@
             <div class="text-center">
                 <h2 class="mb-4">Connexion</h2>
                 <div class="input-group flex-nowrap mb-2">
-                    <span class="input-group-text">@</span>
-                    <input type="text" class="form-control custom-input" placeholder="Username" aria-label="Username">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control custom-input" id="login-username" placeholder="Username" aria-label="Username">
                 </div>
+                <p id="error-login-username" class="error-message" style="display: none; color: red;">Ce champ est requis.</p>
+
                 <div class="input-group flex-nowrap mb-3">
-                    <span class="input-group-text">@</span>
-                    <input type="password" class="form-control custom-input" placeholder="Password" aria-label="Password">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control custom-input" id="login-password" placeholder="Password" aria-label="Password">
                 </div>
-                <button class="btn btn-primary w-50">Connexion</button>
+                <p id="error-login-password" class="error-message" style="display: none; color: red;">Ce champ est requis.</p>
+
+                <button class="btn btn-primary w-50" onclick="validateLoginForm()">Connexion</button>
             </div>
         </div>
     </div>
+
+    <script>
+        function validateLoginForm() {
+            let username = document.getElementById("login-username").value.trim();
+            let password = document.getElementById("login-password").value.trim();
+
+            let errorUsername = document.getElementById("error-login-username");
+            let errorPassword = document.getElementById("error-login-password");
+
+            let isValid = true;
+
+            // Vérification du champ Username
+            if (username === "") {
+                errorUsername.style.display = "block";
+                isValid = false;
+            } else {
+                errorUsername.style.display = "none";
+            }
+
+            // Vérification du champ Password
+            if (password === "") {
+                errorPassword.style.display = "block";
+                isValid = false;
+            } else {
+                errorPassword.style.display = "none";
+            }
+
+            if (isValid) {
+                alert("Connexion réussie !");
+                // Ici, tu peux envoyer les données au serveur pour vérification
+            }
+        }
+    </script>
 {% endblock %}
