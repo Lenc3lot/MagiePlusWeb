@@ -15,7 +15,7 @@ require_once RACINE . 'includes/params.php';
 
 try {
     // Récupération et validation des paramètres
-    $BaseController = filter_input(INPUT_GET, 'c', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'Home';
+    $BaseController = filter_input(INPUT_GET, 'c', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'evenement';
     $action = filter_input(INPUT_GET, 'a', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? 'index';
     $controller = "App\\Controller\\" . ucfirst($BaseController) . "Controller";
 

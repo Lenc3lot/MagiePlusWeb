@@ -15,7 +15,7 @@ class SecurityController
     public function login(): void
     {
         if (isset($_SESSION['user'])) {
-            header('Location: /index.php?c=home&a=index');
+            header('Location: /index.php?c=evenement&a=index');
             exit();
         }
 
@@ -30,7 +30,7 @@ class SecurityController
             if ($user && $password === $user->getPassword()) {
                 $_SESSION['user'] = $user->getId();
                 $_SESSION['login'] = $user->getLogin();
-                header('Location: /index.php?c=home&a=index');
+                header('Location: /index.php?c=evenement&a=index');
                 exit();
             } else {
                 $params['error'] = 'Invalid credentials';
@@ -52,7 +52,7 @@ class SecurityController
     public function logout(): void
     {
         session_destroy();
-        header('Location: /index.php?c=home&a=index');
+        header('Location: /index.php?c=evenement&a=index');
         exit();
     }
 }
