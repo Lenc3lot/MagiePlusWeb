@@ -1,21 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 class User
 {
     private ?int $id = null;
-    private ?string $nom = null;
-    private ?string $prenom = null;
-    private ?string $login = null;
-    private ?string $password = null;
-    private ?array $evenements = [];
-    public function __construct($params = null) {
-        if (!is_null($params)) {
-            foreach ($params as $cle => $valeur) {
-                $this->$cle = $valeur;
-            }
-        }
+    private string $nom;
+    private string $prenom;
+    private string $login;
+    private string $password;
+    private array $evenements = [];
+
+    public function __construct(?int $id = null, string $nom = '', string $prenom = '', string $login = '', string $password = '', array $evenements = [])
+    {
+        $this->id = $id;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->login = $login;
+        $this->password = $password;
+        $this->evenements = $evenements;
     }
 
     public function getId(): ?int
@@ -23,7 +28,7 @@ class User
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -34,7 +39,7 @@ class User
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrenom(): string
     {
         return $this->prenom;
     }
@@ -45,7 +50,7 @@ class User
         return $this;
     }
 
-    public function getLogin(): ?string
+    public function getLogin(): string
     {
         return $this->login;
     }
@@ -56,14 +61,14 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
         return $this;
     }
 
@@ -82,9 +87,7 @@ class User
 
     public function removeEvenement(Evenement $evenement): self
     {
-        $this->evenements = array_filter($this->evenements, function($e) use ($evenement) {
-            return $e !== $evenement;
-        });
+        $this->evenements = array_filter($this->evenements, fn($e) => $e !== $evenement);
         return $this;
     }
 }

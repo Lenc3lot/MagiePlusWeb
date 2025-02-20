@@ -1,23 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 class Evenement
 {
-    private ?int $id = null;
-    private ?string $titre = null;
-    private ?string $description = null;
-    private ?\DateTime $date = null;
-    private ?string $lieu = null;
-    private ?User $id_utilisateur = null;
-    private ?array $users = [];
+    private ?int $id;
+    private string $titre;
+    private string $description;
+    private \DateTime $date;
+    private string $lieu;
+    private User $createur;
+    private array $users = [];
 
-    public function __construct($params = null) {
-        if (!is_null($params)) {
-            foreach ($params as $cle => $valeur) {
-                $this->$cle = $valeur;
-            }
-        }
+    public function __construct(
+        User $createur,
+        ?int $id = null,
+        string $titre = '',
+        string $description = '',
+        \DateTime $date = new \DateTime(),
+        string $lieu = ''
+    ) {
+        $this->id = $id;
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->date = $date;
+        $this->lieu = $lieu;
+        $this->createur = $createur;
     }
 
     public function getId(): ?int
@@ -25,7 +35,7 @@ class Evenement
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): string
     {
         return $this->titre;
     }
@@ -36,7 +46,7 @@ class Evenement
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -47,7 +57,7 @@ class Evenement
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -58,7 +68,7 @@ class Evenement
         return $this;
     }
 
-    public function getLieu(): ?string
+    public function getLieu(): string
     {
         return $this->lieu;
     }
@@ -69,14 +79,14 @@ class Evenement
         return $this;
     }
 
-    public function getId_utilisateur(): ?User
+    public function getCreateur(): User
     {
-        return $this->id_utilisateur;
+        return $this->createur;
     }
 
-    public function setId_utilisateur(User $user): self
+    public function setCreateur(User $createur): self
     {
-        $this->id_utilisateur = $user;
+        $this->createur = $createur;
         return $this;
     }
 
@@ -95,9 +105,7 @@ class Evenement
 
     public function removeUser(User $user): self
     {
-        $this->users = array_filter($this->users, function($u) use ($user) {
-            return $u !== $user;
-        });
+        $this->users = array_filter($this->users, fn($u) => $u !== $user);
         return $this;
     }
 }
