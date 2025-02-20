@@ -1,28 +1,23 @@
-{# TODO: PAGE DE CONNEXION
-    - Formulaire de connexion
-        . Champ de saisie pour l'Email ou le nom d'utilisateur
-        . Champ de saisie pour le mot de passe
-    - Lien vers la page d'inscription
-
-    DO NOT USE A TEMPLATE ONLINE, USE ONLY THE EXAMPLES ON THE DOCUMENTATION
-    https://getbootstrap.com/docs/4.0/components/forms/
-#}
-
 {% extends "index.html.twig" %}
-{%block body %}
+{% block body %}
     <div class="d-flex justify-content-center align-items-center mt-5">
         <div class="border border-primary rounded p-4 w-25">
             <div class="text-center">
                 <h2 class="mb-4">Connexion</h2>
-                <div class="input-group flex-nowrap mb-2">
-                    <span class="input-group-text">@</span>
-                    <input type="text" class="form-control custom-input" placeholder="Username" aria-label="Username">
-                </div>
-                <div class="input-group flex-nowrap mb-3">
-                    <span class="input-group-text">@</span>
-                    <input type="password" class="form-control custom-input" placeholder="Password" aria-label="Password">
-                </div>
-                <button class="btn btn-primary w-50">Connexion</button>
+                <form method="post" action="/index.php?c=security&a=login">
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text">@</span>
+                        <input type="text" class="form-control custom-input" name="login" placeholder="Username" aria-label="Username" required>
+                    </div>
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text">@</span>
+                        <input type="password" class="form-control custom-input" name="password" placeholder="Password" aria-label="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-50">Connexion</button>
+                </form>
+                {% if error is defined %}
+                    <div class="alert alert-danger mt-3">{{ error }}</div>
+                {% endif %}
             </div>
         </div>
     </div>
