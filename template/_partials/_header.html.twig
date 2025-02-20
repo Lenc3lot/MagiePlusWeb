@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+            <img src="" alt="Logo" width="30" height="30" class="d-inline-block align-text-top" href="/index.php?c=evenement&a=index">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -10,9 +10,12 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto gap-4">
-                <li class="nav-item me-3"><a class="nav-link" href="#">Créer des évènements</a></li>
                 <li class="nav-item me-3"><a class="nav-link" href="#">S'inscrire à des évènements</a></li>
-                <li class="nav-item me-3"><a class="nav-link" href="#">Connexion</a></li>
+                {% if session %}
+                    <li class="nav-item me-3"><a class="nav-link" href="/index.php?c=security&a=logout">Logout</a></li>
+                {% else %}
+                    <li class="nav-item me-3"><a class="nav-link" href="/index.php?c=security&a=login">Connexion</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
