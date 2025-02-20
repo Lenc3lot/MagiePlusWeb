@@ -11,7 +11,8 @@
     "minimum-stability": "dev",
     "require": {
         "twbs/bootstrap": "dev-main",
-        "twig/twig": "4.x-dev"
+        "twig/twig": "4.x-dev",
+      "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {
