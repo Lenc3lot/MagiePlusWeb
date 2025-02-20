@@ -48,4 +48,11 @@ class SecurityController
         $vue = str_replace('Controller', 'view', $r->getshortName()) . "/register.html.twig";
         MyTwig::afficheVue($vue, ["title" => "Register"]);
     }
+
+    public function logout(): void
+    {
+        session_destroy();
+        header('Location: /index.php?c=home&a=index');
+        exit();
+    }
 }
