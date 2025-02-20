@@ -2,6 +2,9 @@
     align-content: center;
 }
 
+.width-45 {
+    width: 45%;
+}
 .error-message {
     color: red;
     font-size: 0.9rem;
