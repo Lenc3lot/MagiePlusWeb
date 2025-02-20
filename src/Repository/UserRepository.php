@@ -31,4 +31,24 @@ class UserRepository extends Repository
         return null;
     }
 
+    public function findOneBy(array $criteria): ?User
+    {
+        $sql = 'SELECT * FROM User WHERE ' . key($criteria) . ' = :value LIMIT 1';
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindValue(':value', current($criteria));
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            return new User(
+                $data['Id'] ?? null,
+                $data['Login'] ?? null,
+                $data['Password'] ?? null,
+                [] // Assuming events are not fetched here
+            );
+        }
+
+        return null;
+    }
 }
