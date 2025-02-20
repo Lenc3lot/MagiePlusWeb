@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+session_start();
+
 // Définition des constantes
 define('DEV_MODE', true);
 define('DS', DIRECTORY_SEPARATOR);
@@ -29,7 +31,7 @@ try {
 
     // Appel de l'action avec les paramètres restants
     $actionParams = array_slice($_REQUEST, 2);
-    call_user_func_array([$c, $action], $actionParams);
+    call_user_func([$c, $action], $actionParams);
 
 } catch (Throwable $ex) {
     $params = [
