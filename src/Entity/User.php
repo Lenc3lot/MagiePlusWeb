@@ -1,53 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Entity;
 
 class User
 {
-    private ?int $id = null;
-    private string $nom;
-    private string $prenom;
+    private ?int $id;
     private string $login;
     private string $password;
-    private array $evenements = [];
+    private array $events = [];
 
-    public function __construct(?int $id = null, string $nom = '', string $prenom = '', string $login = '', string $password = '', array $evenements = [])
-    {
+    public function __construct(
+        ?int $id = null,
+        string $login = '',
+        string $password = '',
+        array $events = []
+    ) {
         $this->id = $id;
-        $this->nom = $nom;
-        $this->prenom = $prenom;
         $this->login = $login;
         $this->password = $password;
-        $this->evenements = $evenements;
+        $this->events = $events;
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNom(): string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-        return $this;
-    }
-
-    public function getPrenom(): string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): self
-    {
-        $this->prenom = $prenom;
-        return $this;
     }
 
     public function getLogin(): string
@@ -68,26 +44,29 @@ class User
 
     public function setPassword(string $password): self
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $password;
         return $this;
     }
 
-    public function getEvenements(): array
+    public function getEvents(): array
     {
-        return $this->evenements;
+        return $this->events;
     }
 
-    public function addEvenement(Evenement $evenement): self
+    public function addEvent(Evenement $event): self
     {
-        if (!in_array($evenement, $this->evenements, true)) {
-            $this->evenements[] = $evenement;
+        $this->events[] = $event;
+        return $this;
+    }
+
+    public function removeEvent(Evenement $event): self
+    {
+        $key = array_search($event, $this->events, true);
+        if ($key !== false) {
+            unset($this->events[$key]);
         }
         return $this;
     }
 
-    public function removeEvenement(Evenement $evenement): self
-    {
-        $this->evenements = array_filter($this->evenements, fn($e) => $e !== $evenement);
-        return $this;
-    }
+
 }
