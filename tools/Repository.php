@@ -3,6 +3,7 @@
 namespace Tools;
 
 use PDO;
+use App\Entity\User;
 
 abstract class Repository {
 
@@ -22,7 +23,7 @@ abstract class Repository {
     public function findAll(): array {
         $sql = "select * from " . $this->table;
         $lignes = $this->connexion->query($sql);
-        $lignes->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong, null);
+        $lignes->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->classeNameLong, [new User(), null, '', '', new \DateTime(), '']);
         return $lignes->fetchAll();
     }
 
