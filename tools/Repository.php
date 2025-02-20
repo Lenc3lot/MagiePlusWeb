@@ -114,6 +114,24 @@ abstract class Repository {
         return $repository;
     }
 
+    public function findOneBy(array $criteria): ?object {
+        $sql = "SELECT * FROM " . $this->table . " WHERE ";
+        $conditions = [];
+        foreach ($criteria as $key => $value) {
+            $conditions[] = "$key = :$key";
+        }
+        $sql .= implode(' AND ', $conditions);
+        $stmt = $this->connexion->prepare($sql);
+        foreach ($criteria as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong);
+        $row = $stmt->fetch();
+
+        return $row ?: null;
+    }
+
     public function __call(string $methode, array $params) {
         if (preg_match("#^findBy#", $methode)) {
             return $this->traiteFindBy($methode, array_values($params[0]));
