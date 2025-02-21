@@ -11,9 +11,11 @@
                             <p><img src="https://img.icons8.com/material-outlined/24/place-marker--v1.png"> {{ evenement.lieu }}</p>
                         </div>
                         <div>
-                            <button class="mt-5 p-1 rounded bg-secondary">
+                            {% if session %}
+                            <button class="mt-5 p-1 rounded btn btn-primary">
                                 S'inscrire
                             </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
