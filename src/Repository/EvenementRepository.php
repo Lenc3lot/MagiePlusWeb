@@ -48,4 +48,16 @@ class EvenementRepository extends Repository {
 
         return array_values($evenements);
     }
+
+    public function save(Evenement $evenement): void {
+        $sql = "INSERT INTO Evenement (Titre, `desc`, img, date, lieu, createur) VALUES (:titre, :desc, :img, :date, :lieu, :createur)";
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindValue(':titre', $evenement->getTitre(), PDO::PARAM_STR);
+        $stmt->bindValue(':desc', $evenement->getDescription(), PDO::PARAM_STR);
+        $stmt->bindValue(':img', $evenement->getImg(), PDO::PARAM_STR);
+        $stmt->bindValue(':date', $evenement->getDate()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+        $stmt->bindValue(':lieu', $evenement->getLieu(), PDO::PARAM_STR);
+        $stmt->bindValue(':createur', $evenement->getCreateur()->getId(), PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
