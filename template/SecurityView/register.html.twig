@@ -1,129 +1,23 @@
-{# TODO: PAGE D'INSCRIPTION
-    - Formulaire d'insciption
-        . Champ de saisie pour l'Email
-        . Champ de saisie pour le nom d'utilisateur
-        . Champ de saisie pour le mot de passe
-        . Champ de saisie pour la confirmation du mot de passe
-        . Accepter les conditions générales d'utilisation
-    - Lien vers la page de connexion
-
-    DO NOT USE A TEMPLATE ONLINE, USE ONLY THE EXAMPLES ON THE DOCUMENTATION
-    https://getbootstrap.com/docs/4.0/components/forms/
-#}
-
 {% extends "index.html.twig" %}
-{%block body %}
+{% block body %}
     <div class="d-flex justify-content-center align-items-center mt-5">
-        <div class="border border-primary rounded p-4" style="width: 350px;">
+        <div class="border border-primary rounded p-4 w-25">
             <div class="text-center">
                 <h2 class="mb-4">Inscription</h2>
-                <div class="input-group flex-nowrap mb-2">
-                    <span class="input-group-text"><i class="bi bi-person"> </i></span>
-                    <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username">
-                </div>
-                <p id="error-username" class="error-message">Ce champ est requis.</p>
-
-                <div class="password-container mb-2">
-                    <div class="input-group flex-nowrap">
-                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password" placeholder="Password" aria-label="Password" oninput="checkPasswordStrength()">
+                <form method="POST" action="/index.php?c=security&a=register">
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-person"> </i></span>
+                        <input type="text" class="form-control" id="username" name="login" placeholder="Username" aria-label="Username">
                     </div>
-                    <span id="password-strength" class="password-strength"></span>
-                </div>
-                <p id="error-password" class="error-message">Ce champ est requis.</p>
 
-                <div class="input-group flex-nowrap mb-2">
-                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" aria-label="ConfirmPassword">
-                </div>
-                <p id="error-confirm-password" class="error-message">Ce champ est requis.</p>
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" aria-label="Password">
+                    </div>
 
-                <p id="error-mismatch" class="error-message">Les mots de passe ne sont pas identiques.</p>
-
-                <button class="btn btn-primary w-50" onclick="validateForm()">Inscription</button>
+                    <button type="submit" class="btn btn-primary w-50">Inscription</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <script>
-        function validateForm() {
-            let username = document.getElementById("username").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let confirmPassword = document.getElementById("confirm-password").value.trim();
-
-            let errorUsername = document.getElementById("error-username");
-            let errorPassword = document.getElementById("error-password");
-            let errorConfirmPassword = document.getElementById("error-confirm-password");
-            let errorMismatch = document.getElementById("error-mismatch");
-
-            let isValid = true;
-
-            // Vérification du champ Username
-            if (username === "") {
-                errorUsername.style.display = "block";
-                isValid = false;
-            } else {
-                errorUsername.style.display = "none";
-            }
-
-            // Vérification du champ Password
-            if (password === "") {
-                errorPassword.style.display = "block";
-                isValid = false;
-            } else {
-                errorPassword.style.display = "none";
-            }
-
-            // Vérification du champ Confirm Password
-            if (confirmPassword === "") {
-                errorConfirmPassword.style.display = "block";
-                isValid = false;
-            } else {
-                errorConfirmPassword.style.display = "none";
-            }
-
-            // Vérification si les mots de passe correspondent
-            if (password !== "" && confirmPassword !== "" && password !== confirmPassword) {
-                errorMismatch.style.display = "block";
-                isValid = false;
-            } else {
-                errorMismatch.style.display = "none";
-            }
-
-            if (isValid) {
-                alert("Inscription réussie !");
-                // Ici, tu peux envoyer les données au serveur
-            }
-        }
-
-        function checkPasswordStrength() {
-            let password = document.getElementById("password").value;
-            let strengthIndicator = document.getElementById("password-strength");
-
-            if (password.length === 0) {
-                strengthIndicator.textContent = "";
-                return;
-            }
-
-            let strength = 0;
-
-            if (password.length >= 6) strength++; // Longueur minimale
-            if (password.match(/[A-Z]/)) strength++; // Contient une majuscule
-            if (password.match(/[a-z]/)) strength++; // Contient une minuscule
-            if (password.match(/[0-9]/)) strength++; // Contient un chiffre
-            if (password.match(/[\W_]/)) strength++; // Contient un caractère spécial
-
-            // Définition du niveau de sécurité
-            if (strength <= 2) {
-                strengthIndicator.textContent = "Faible";
-                strengthIndicator.className = "password-strength weak";
-            } else if (strength <= 4) {
-                strengthIndicator.textContent = "Moyen";
-                strengthIndicator.className = "password-strength medium";
-            } else {
-                strengthIndicator.textContent = "Fort";
-                strengthIndicator.className = "password-strength strong";
-            }
-        }
-    </script>
 {% endblock %}

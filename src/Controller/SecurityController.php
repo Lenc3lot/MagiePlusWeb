@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use JetBrains\PhpStorm\NoReturn;
 use ReflectionClass;
 use Tools\MyTwig;
@@ -44,6 +45,24 @@ class SecurityController
 
     public function register(): void
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $login = $_POST['login'];
+            $password = $_POST['password'];
+
+            // Assuming you have a UserRepository to save user data
+            $userRepository = Repository::getRepository("App\Entity\User");
+            $user = new User();
+            $user->setLogin($login);
+            $user->setPassword($password); // Not hashing the password
+
+            $userRepository->save($user);
+
+            $_SESSION['user'] = $user->getId();
+            $_SESSION['login'] = $user->getLogin();
+            header('Location: /index.php?c=evenement&a=index');
+            exit();
+        }
+
         $r = new ReflectionClass($this);
         $vue = str_replace('Controller', 'view', $r->getshortName()) . "/register.html.twig";
         MyTwig::afficheVue($vue, ["title" => "Register"]);

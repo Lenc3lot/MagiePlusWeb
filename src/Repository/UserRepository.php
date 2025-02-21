@@ -51,4 +51,12 @@ class UserRepository extends Repository
 
         return null;
     }
+
+    public function save(User $user): void {
+        $sql = "INSERT INTO User (Login, Password) VALUES (:login, :password)";
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindValue(':login', $user->getLogin(), PDO::PARAM_STR);
+        $stmt->bindValue(':password', $user->getPassword(), PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
