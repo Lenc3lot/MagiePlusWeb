@@ -12,9 +12,27 @@
                         </div>
                         <div>
                             {% if session %}
-                            <button class="mt-5 p-1 rounded btn btn-primary">
-                                S'inscrire
-                            </button>
+                                {% set isRegistered = false %}
+                                {% for user in evenement.users %}
+                                    {% if user.id == session.user %}
+                                        {% set isRegistered = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if isRegistered %}
+                                    <form action="/index.php?c=evenement&a=desinscription" method="post">
+                                        <input type="hidden" name="eventId" value="{{ evenement.id }}">
+                                        <button type="submit" class="mt-5 p-1 rounded btn btn-danger">
+                                            Se désinscrire
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="/index.php?c=evenement&a=inscription" method="post">
+                                        <input type="hidden" name="eventId" value="{{ evenement.id }}">
+                                        <button type="submit" class="mt-5 p-1 rounded btn btn-primary">
+                                            S'inscrire
+                                        </button>
+                                    </form>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>

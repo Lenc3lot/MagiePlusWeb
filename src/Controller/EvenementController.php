@@ -52,4 +52,48 @@ class EvenementController
         $vue = str_replace('Controller', 'view', $r->getshortName()) . "/add.html.twig";
         MyTwig::afficheVue($vue, ["title" => "Add Event"]);
     }
+
+    public function inscription(): void
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /index.php?c=security&a=login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $eventId = (int)$_POST['eventId'];
+            $userId = (int)$_SESSION['user'];
+
+            $evenementRepository = Repository::getRepository("App\Entity\Evenement");
+            $evenementRepository->registerUserToEvent($eventId, $userId);
+
+            header('Location: /index.php?c=evenement&a=index');
+            exit();
+        }
+
+        header('Location: /index.php?c=evenement&a=index');
+        exit();
+    }
+
+    public function desinscription(): void
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /index.php?c=security&a=login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $eventId = (int)$_POST['eventId'];
+            $userId = (int)$_SESSION['user'];
+
+            $evenementRepository = Repository::getRepository("App\Entity\Evenement");
+            $evenementRepository->unregisterUserFromEvent($eventId, $userId);
+
+            header('Location: /index.php?c=evenement&a=index');
+            exit();
+        }
+
+        header('Location: /index.php?c=evenement&a=index');
+        exit();
+    }
 }

@@ -60,4 +60,20 @@ class EvenementRepository extends Repository {
         $stmt->bindValue(':createur', $evenement->getCreateur()->getId(), PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    public function registerUserToEvent(int $eventId, int $userId): void {
+        $sql = "INSERT INTO Participer (idEvenement, idUser) VALUES (:idEvenement, :idUser)";
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindValue(':idEvenement', $eventId, PDO::PARAM_INT);
+        $stmt->bindValue(':idUser', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public function unregisterUserFromEvent(int $eventId, int $userId): void {
+        $sql = "DELETE FROM Participer WHERE idEvenement = :idEvenement AND idUser = :idUser";
+        $stmt = $this->connexion->prepare($sql);
+        $stmt->bindValue(':idEvenement', $eventId, PDO::PARAM_INT);
+        $stmt->bindValue(':idUser', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
