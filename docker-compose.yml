@@ -5,18 +5,39 @@ networks:
     driver: bridge
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: magie_plus_app
+    restart: unless-stopped
+    volumes:
+      - ${ROOT_DIR}:/var/www/html:delegated
+      - ${ROOT_DIR}/docker/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8000:80"
+    environment:
+      - DATABASE_URL=db
+      - DATABASE_USER=${MYSQL_USER}
+      - DATABASE_PWD=${MYSQL_PASSWORD}
+      - DATABASE_NAME=${MYSQL_DATABASE}
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - db
+    networks:
+      - bdd
 
   db:
     container_name: mariadb-${PROJECT_NAME}
     image: ${MARIADB_VERSION}
-    #restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-        - ${MARIADB_PORT_DEST}:${MARIADB_PORT}
+      - ${MARIADB_PORT_DEST}:${MARIADB_PORT}
     volumes:
       - ${ROOT_DIR}/docker/mariadb/data:/var/lib/mysql
     networks:
@@ -31,6 +52,9 @@ services:
     restart: "on-failure"
     ports:
       - ${ADMINER_PORT_DEST}:${ADMINER_PORT}
+    environment:
+      ADMINER_PLUGINS : ""
+      #ADMINER_DESIGN :
     links:
         - db
     networks:

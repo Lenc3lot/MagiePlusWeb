@@ -1,21 +1,41 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
 
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
 WORKDIR /var/www/html
 
-COPY . /var/www/html
+# Copy application files
+COPY . .
 
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+# Install dependencies
+RUN composer install --no-interaction --no-scripts
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
-
+# Configure Apache
 RUN a2enmod rewrite
+COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-RUN composer install --no-dev --optimize-autoloader
+# Create storage directory if it doesn't exist
+RUN mkdir -p storage
 
-EXPOSE 80
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 777 /var/www/html/storage
 
-CMD ["apache2-foreground"]
+# Verify Apache configuration
+RUN apache2ctl configtest
