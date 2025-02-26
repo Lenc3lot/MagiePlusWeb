@@ -1,0 +1,41 @@
+networks:
+  default:
+    driver: bridge
+  bdd:
+    driver: bridge
+
+services:
+
+  db:
+    container_name: mariadb-${PROJECT_NAME}
+    image: ${MARIADB_VERSION}
+    #restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+        - ${MARIADB_PORT_DEST}:${MARIADB_PORT}
+    volumes:
+      - ${ROOT_DIR}/docker/mariadb/data:/var/lib/mysql
+    networks:
+      - bdd
+
+
+
+
+  adminer:
+    container_name: adminer-${PROJECT_NAME}
+    image: adminer
+    restart: "on-failure"
+    ports:
+      - ${ADMINER_PORT_DEST}:${ADMINER_PORT}
+    links:
+        - db
+    networks:
+        - bdd
+
+volumes:
+  database_maria:
+    driver: local
