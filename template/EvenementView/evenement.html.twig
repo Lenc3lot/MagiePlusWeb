@@ -1,7 +1,7 @@
 {% extends "index.html.twig" %}
 {% block body %}
+    {{ dump(session) }}
     <section class="container py-4 d-flex flex-wrap justify-content-center gap-4">
-        {% for evenement in evenements %}
             <article class="card bg-light shadow p-3 width-45 " style="">
                 <div class="text-start">
                     <img src="{{ evenement.img }}" class="w-100 rounded h-50">

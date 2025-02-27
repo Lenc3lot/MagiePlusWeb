@@ -45,18 +45,24 @@ class SecurityController
 
     public function register(): void
     {
+        if (isset($_SESSION['user'])) {
+            header('Location: /index.php?c=evenement&a=index');
+            exit();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $login = $_POST['login'];
             $password = $_POST['password'];
 
-            // Assuming you have a UserRepository to save user data
             $userRepository = Repository::getRepository("App\Entity\User");
             $user = new User();
             $user->setLogin($login);
             $user->setPassword($password); // Not hashing the password
 
             $userRepository->save($user);
+            $user = $userRepository->findOneBy(['login' => $login]);
 
+            // Initialize session
             $_SESSION['user'] = $user->getId();
             $_SESSION['login'] = $user->getLogin();
             header('Location: /index.php?c=evenement&a=index');
