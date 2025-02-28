@@ -1,8 +1,8 @@
 <?php
 
-define('DATABASE_URL', "localhost");
-define('DATABASE_USER', "root");
-define('DATABASE_PWD', "");
-define('DATABASE_NAME', "noto_magieplus");
-define('CNSTRING', "mysql:host=" . DATABASE_URL . ";dbname=" . DATABASE_NAME . "; charset=UTF8");
-
+const DATABASE_HOST = "db";
+const DATABASE_PORT = "3306";
+const DATABASE_USER = "db_user";
+const DATABASE_PWD = "db_password";
+const DATABASE_NAME = "noto";
+const CNSTRING = "mysql:host=" . DATABASE_HOST . ";port=" . DATABASE_PORT .";dbname=" . DATABASE_NAME . "; charset=UTF8";

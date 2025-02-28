@@ -4,6 +4,9 @@ namespace Tools;
 
 use PDO;
 use App\Exceptions\AppException;
+use PDOException;
+
+require_once __DIR__ . "/../parametres.php";
 
 class Connexion {
 

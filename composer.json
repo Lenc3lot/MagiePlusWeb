@@ -9,5 +9,18 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "twbs/bootstrap": "dev-main",
+        "twig/twig": "4.x-dev",
+      "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src",
+            "Tools\\": "tools"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.1@dev"
+    }
 }

@@ -1,0 +1,38 @@
+{% extends "index.html.twig" %}
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="border border-primary rounded p-4" style="width: 350px;">
+            <div class="text-center">
+                <h2 class="mb-4">Ajouter un événement</h2>
+                <form method="POST" action="/index.php?c=evenement&a=add">
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-person"> </i></span>
+                        <input type="text" class="form-control" id="titre" name="titre" placeholder="Titre" aria-label="Titre" required>
+                    </div>
+
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                        <textarea class="form-control" id="description" name="description" placeholder="Description" aria-label="Description" required></textarea>
+                    </div>
+
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-image"></i></span>
+                        <input type="text" class="form-control" id="img" name="img" placeholder="Lien de l'image" aria-label="Image" required>
+                    </div>
+
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                        <input type="datetime-local" class="form-control" id="date" name="date" placeholder="Date" aria-label="Date" required>
+                    </div>
+
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                        <input type="text" class="form-control" id="lieu" name="lieu" placeholder="Lieu" aria-label="Lieu" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-50">Ajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

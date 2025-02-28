@@ -1,0 +1,40 @@
+.section-login{
+    align-content: center;
+}
+
+.width-45 {
+    width: 45%;
+}
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    display: none; /* Caché par défaut */
+}
+.password-container {
+    position: relative;
+    width: 100%;
+}
+.password-strength {
+    position: absolute;
+    right: -100px; /* Décale à droite du champ */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.weak { color: red; }
+.medium { color: orange; }
+.strong { color: green; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}

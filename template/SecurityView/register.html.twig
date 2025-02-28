@@ -1,0 +1,23 @@
+{% extends "index.html.twig" %}
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="border border-primary rounded p-4 w-25">
+            <div class="text-center">
+                <h2 class="mb-4">Inscription</h2>
+                <form method="POST" action="/index.php?c=security&a=register">
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="bi bi-person"> </i></span>
+                        <input type="text" class="form-control" id="username" name="login" placeholder="Username" aria-label="Username">
+                    </div>
+
+                    <div class="input-group flex-nowrap mb-2">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" aria-label="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-50">Inscription</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

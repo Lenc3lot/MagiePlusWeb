@@ -3,13 +3,14 @@
 namespace Tools;
 
 use PDO;
+use App\Entity\User;
 
 abstract class Repository {
 
     private string $classeNameLong;
     private string $classeNamespace;
     private string $table;
-    private PDO $connexion;
+    protected PDO $connexion;
 
     private function __construct(string $entity) {
         $tablo = explode("\\", $entity);
@@ -22,7 +23,7 @@ abstract class Repository {
     public function findAll(): array {
         $sql = "select * from " . $this->table;
         $lignes = $this->connexion->query($sql);
-        $lignes->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong, null);
+        $lignes->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->classeNameLong, [new User(), null, '', '', new \DateTime(), '']);
         return $lignes->fetchAll();
     }
 
@@ -111,6 +112,24 @@ abstract class Repository {
         $repositoryName = str_replace('Entity', 'Repository', $entity) . 'Repository';
         $repository = new $repositoryName($entity);
         return $repository;
+    }
+
+    public function findOneBy(array $criteria): ?object {
+        $sql = "SELECT * FROM " . $this->table . " WHERE ";
+        $conditions = [];
+        foreach ($criteria as $key => $value) {
+            $conditions[] = "$key = :$key";
+        }
+        $sql .= implode(' AND ', $conditions);
+        $stmt = $this->connexion->prepare($sql);
+        foreach ($criteria as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->classeNameLong);
+        $row = $stmt->fetch();
+
+        return $row ?: null;
     }
 
     public function __call(string $methode, array $params) {
